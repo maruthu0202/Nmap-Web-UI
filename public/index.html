@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nmap Web Scanner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="#00ff88" stroke-width="2"/>
+                    <path d="M12 2v20M2 12h20" stroke="#00ff88" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="3" fill="#00ff88"/>
+                </svg>
+                <h1>Nmap Web Scanner</h1>
+            </div>
+            <p class="subtitle">Network Discovery & Security Auditing</p>
+            <button class="help-btn" id="helpBtn">How to Use</button>
+        </header>
+
+        <div class="help-section" id="helpSection" style="display:none;">
+            <div class="card">
+                <div class="help-header">
+                    <h2>Quick Guide</h2>
+                    <button class="close-btn" id="closeBtn">×</button>
+                </div>
+                <div class="help-content">
+                    <div class="help-item">
+                        <h3>Target Examples:</h3>
+                        <ul>
+                            <li>Single IP: <code>192.168.1.10</code></li>
+                            <li>IP Range: <code>192.168.1.1-50</code></li>
+                            <li>Subnet: <code>192.168.1.0/24</code></li>
+                            <li>Hostname: <code>example.com</code></li>
+                        </ul>
+                    </div>
+                    <div class="help-item">
+                        <h3>Scan Types:</h3>
+                        <ul>
+                            <li><strong>Default:</strong> Standard scan</li>
+                            <li><strong>SYN Stealth:</strong> Fast, requires sudo</li>
+                            <li><strong>TCP Connect:</strong> Full connection</li>
+                            <li><strong>UDP:</strong> Scans UDP ports</li>
+                            <li><strong>Comprehensive:</strong> Full analysis</li>
+                            <li><strong>Quick:</strong> Top 100 ports</li>
+                        </ul>
+                    </div>
+                    <div class="help-item">
+                        <h3>Port Examples:</h3>
+                        <ul>
+                            <li>Specific: <code>22,80,443</code></li>
+                            <li>Range: <code>1-1000</code></li>
+                            <li>All: <code>1-65535</code></li>
+                        </ul>
+                    </div>
+                    <div class="help-item">
+                        <h3>NSE Scripts:</h3>
+                        <ul>
+                            <li><code>vuln</code> - Vulnerability checks</li>
+                            <li><code>default</code> - Safe scripts</li>
+                            <li><code>http-enum</code> - Web enumeration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main>
+            <div class="card">
+                <h2>Scan Configuration</h2>
+                <form id="scanForm">
+                    <div class="form-group">
+                        <label>Target</label>
+                        <input type="text" id="target" placeholder="192.168.1.1 or example.com" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Scan Type</label>
+                            <select id="scanType">
+                                <option value="default">Default Scan</option>
+                                <option value="syn">SYN Stealth (-sS)</option>
+                                <option value="tcp">TCP Connect (-sT)</option>
+                                <option value="udp">UDP Scan (-sU)</option>
+                                <option value="comprehensive">Comprehensive (-A)</option>
+                                <option value="quick">Quick Scan (-F)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ports (Optional)</label>
+                            <input type="text" id="ports" placeholder="22,80,443 or 1-1000">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>NSE Scripts (Optional)</label>
+                        <input type="text" id="scripts" placeholder="vuln, default, http-enum">
+                    </div>
+                    <div class="checkbox-row">
+                        <label>
+                            <input type="checkbox" id="serviceDetection">
+                            Service Detection (-sV)
+                        </label>
+                        <label>
+                            <input type="checkbox" id="osDetection">
+                            OS Detection (-O)
+                        </label>
+                    </div>
+                    <button type="submit" class="btn-primary" id="scanBtn">
+                        <span id="btnText">Start Scan</span>
+                        <span id="btnLoader" style="display:none;">
+                            <span class="spinner"></span> Scanning...
+                        </span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="results" id="results" style="display:none;">
+                <div class="card">
+                    <div class="results-header">
+                        <h2>Scan Results</h2>
+                        <button class="btn-secondary" id="copyBtn">Copy</button>
+                    </div>
+                    <div class="scan-info" id="scanInfo"></div>
+                    <pre id="resultsText"></pre>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="warning">⚠️ <strong>Ethical Use Only:</strong> Only scan systems you own or have permission to test</div>
+            <p class="status" id="status">Checking Nmap...</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
